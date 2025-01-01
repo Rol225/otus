@@ -1,5 +1,5 @@
 # Создание главной страницы / базовые компоненты
-Проект доступен по ссылке [gitHub](https://github.com/Rol225/otus)
+Проект доступен по ссылке [gitHub](https://github.com/Rol225/otus/tree/feature/front-month-1-lesson-4-init-product-site)
 
 ## Цель:
 - загружать данные;
