@@ -16,6 +16,8 @@
   justify-content: center;
   padding: 150px 0
 }
+.noOffset{margin:0;padding: 0}
+.absolute{position: absolute;top: 0;left: 0;width: 100%;height: 100%;}
 .loader {
   width: 48px;
   height: 48px;
