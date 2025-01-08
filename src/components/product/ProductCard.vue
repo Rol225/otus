@@ -8,6 +8,7 @@ const props = defineProps({
   description: {type: String, required: false},
   price: {type: String, required: false},
   rating: {type: String, required: false},
+  category: {type: String, required: false},
   count: {type: String, required: false},
 });
 </script>
@@ -19,6 +20,10 @@ const props = defineProps({
     <h4>
       {{ title }}
     </h4>
+    <div v-if="category">
+      <span>Категория: </span>
+      <strong >{{category}}</strong>
+    </div>
     <div class="description" v-if="description">{{ description }}</div>
     <div class="rating" v-if="rating" title="рейтинг">
       <span>{{ rating }}</span>
@@ -32,7 +37,7 @@ const props = defineProps({
       <div class="price" title="цена">
         ${{ price }}
       </div>
-      <div class="count" title="количество">
+      <div class="count" title="количество отзывов">
         <span>{{ count }}</span>
       </div>
     </footer>
