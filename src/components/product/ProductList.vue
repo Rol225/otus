@@ -26,7 +26,8 @@ fetchProducts();
             v-for="item in products" :key="item.id"
             :id="String(item.id)"
             :title="item.title" :image="item.image" :description="item.description" :category="item.category"
-            :price="String(item.price)" :rating="String(item.rating.rate)" :count="String(item.rating.count)"
+            :price="String(item.price)" :rating="String(item.rating.rate)" :countRate="String(item.rating.count)"
+            :isShowBasketBtn="true"
         />
       </div>
     </template>

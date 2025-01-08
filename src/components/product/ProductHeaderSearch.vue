@@ -30,7 +30,7 @@ const customClear = () => filteredProducts.value = [];
               v-for="item in filteredProducts" :key="item.id"
               :id="String(item.id)"
               :title="item.title" :image="item.image"
-              :price="String(item.price)" :rating="String(item.rating.rate)" :count="String(item.rating.count)"
+              :price="String(item.price)" :rating="String(item.rating.rate)" :countRate="String(item.rating.count)"
           />
         </div>
       </template>

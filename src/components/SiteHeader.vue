@@ -1,6 +1,7 @@
 <script setup>
 import ProductHeaderSearch from "@/components/product/ProductHeaderSearch.vue";
 import SiteNav from "@/components/SiteNav.vue";
+import UserPopup from "@/components/UserPopup.vue";
 </script>
 
 <template>
@@ -8,6 +9,7 @@ import SiteNav from "@/components/SiteNav.vue";
   <div class="container">
     <SiteNav/>
     <ProductHeaderSearch/>
+    <UserPopup/>
   </div>
 </header>
 </template>
