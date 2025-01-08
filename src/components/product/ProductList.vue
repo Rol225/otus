@@ -45,7 +45,7 @@ fetchProducts();
         <ProductCard
             v-for="item in product" :key="item.id"
             :id="String(item.id)"
-            :title="item.title" :image="item.image" :description="item.description"
+            :title="item.title" :image="item.image" :description="item.description" :category="item.category"
             :price="String(item.price)" :rating="String(item.rating.rate)" :count="String(item.rating.count)"
         />
       </div>

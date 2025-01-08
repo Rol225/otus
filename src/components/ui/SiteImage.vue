@@ -1,5 +1,5 @@
 <script setup>
-import {defineProps, ref} from 'vue';
+import {defineProps, ref, watch} from 'vue';
 const props = defineProps({
   src: {type: String, required: true},
   alt: {type: String, required: false},
@@ -13,6 +13,7 @@ const handleError = () => {
   errorLoad = true;
   currentSrc.value = "/errorImage.svg";
 };
+watch(() => props.src, (newValue) => {currentSrc.value = newValue;});
 </script>
 
 <template>
