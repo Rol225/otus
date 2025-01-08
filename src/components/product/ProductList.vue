@@ -2,30 +2,10 @@
 import { ref } from "vue";
 import ProductCard from "@/components/product/ProductCard.vue";
 import SiteSpinner from "@/components/ui/SiteSpinner.vue";
+import {useProduct} from "@/hooks/useProduct.js";
 
-const product = ref([]);
-const isLoading = ref(true);
-const isError = ref(false);
 const isEmpty = ref(false);
-
-const fetchProducts = async () => {
-  isLoading.value = true;
-  isError.value = false;
-
-  try {
-    const response = await fetch("https://fakestoreapi.com/products");
-    if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
-    const data = await response.json();
-    product.value = data;
-    isEmpty.value = data.length === 0;
-  } catch (error) {
-    console.error(error);
-    isError.value = true;
-  } finally {
-    isLoading.value = false;
-  }
-};
-
+const { products, isLoading, isError, fetchProducts } = useProduct();
 fetchProducts();
 </script>
 
@@ -43,10 +23,11 @@ fetchProducts();
     <template v-else>
       <div class="list">
         <ProductCard
-            v-for="item in product" :key="item.id"
+            v-for="item in products" :key="item.id"
             :id="String(item.id)"
             :title="item.title" :image="item.image" :description="item.description" :category="item.category"
-            :price="String(item.price)" :rating="String(item.rating.rate)" :count="String(item.rating.count)"
+            :price="String(item.price)" :rating="String(item.rating.rate)" :countRate="String(item.rating.count)"
+            :isShowBasketBtn="true"
         />
       </div>
     </template>

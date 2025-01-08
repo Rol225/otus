@@ -1,11 +1,15 @@
 <script setup>
 import ProductHeaderSearch from "@/components/product/ProductHeaderSearch.vue";
+import SiteNav from "@/components/SiteNav.vue";
+import UserPopup from "@/components/UserPopup.vue";
 </script>
 
 <template>
 <header>
   <div class="container">
+    <SiteNav/>
     <ProductHeaderSearch/>
+    <UserPopup/>
   </div>
 </header>
 </template>
@@ -21,4 +25,6 @@ header {
   background: #fffffff7;
   backdrop-filter: blur(1px);
 }
+.container{display: flex;justify-content: space-between}
+::v-deep(nav){align-items: center;}
 </style>
