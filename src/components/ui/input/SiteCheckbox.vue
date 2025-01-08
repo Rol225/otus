@@ -1,15 +1,21 @@
 <script setup>
+import {ref, watch} from "vue";
+
 const props = defineProps({
-  value: {type: String, default: "text", required: true},
-  checked: {type: Boolean, default: false, required: false},
+  value: {type: Boolean, required: true},
   name: {type: String, default: "text", required: true},
   type: {type: String, default: "checkbox"},
+  message: {type: Object, default: null}
 });
+const localValue = ref(props.value);
+const emit = defineEmits(["update:value", "customSubmit"]);
+watch(() => props.value, (newValue) => {localValue.value = newValue;});
+watch(localValue, () => emit("update:value", localValue.value));
 </script>
 
 <template>
   <label>
-    <input type="checkbox" :name="props.name" :value="value" :checked="checked" hidden="hidden">
+    <input type="checkbox" :name="props.name" v-model="localValue"  hidden="hidden">
     <span class="wrapper">
       <i>
         <svg width="19" height="14" viewBox="0 0 19 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -21,6 +27,7 @@ const props = defineProps({
         <slot></slot>
       </span>
     </span>
+    <span class="message" :class="message.class" v-if="message">{{message.message}}</span>
   </label>
 </template>
 
@@ -29,4 +36,5 @@ label{display: block;cursor:pointer;}
 .wrapper{display: flex;align-items: center;gap: 10px}
 i{width: 20px;height: 20px;display: flex;align-items: center;justify-content: center;padding: 3px;border: 1px solid #1a1a1a;transition: .2s linear}
 input:checked + .wrapper i {background: #1a1a1a;}
+.message.error {color: red;font-size: 0.9em;}
 </style>
