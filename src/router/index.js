@@ -6,6 +6,7 @@ import PrivacyView from "@/views/PrivacyView.vue";
 import ProductCreateView from "@/views/ProductCreateView.vue";
 import CatalogView from "@/views/CatalogView.vue";
 import ProductDetail from "@/views/ProductDetail.vue";
+import NotFoundView from "@/views/NotFoundView.vue";
 
 const routes = [
     { path: '/', component: MainView, meta: {group: ["main"], title: 'Главная'}},
@@ -14,6 +15,7 @@ const routes = [
     { path: '/product/', component: CatalogView, meta: {group: ["main"], title: 'Каталог'}},
     { path: '/product/:id', component: ProductDetail, meta: {title: 'Детальная страница продукции'}},
     { path: '/product/create/', component: ProductCreateView, meta: {title: 'Создание продукта'}},
+    {path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFoundView, meta: {title: '404'}},
 ]
 
 const router = createRouter({

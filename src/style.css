@@ -40,3 +40,7 @@ button.active{border-color: #646cff;background-color: #646cff}
   a:hover {color: #535bf2;}
   button:hover {border-color: #646cff;background-color: #646cff}
 }
+
+div#app, .mainView {display: flex;flex-direction: column;}
+div#app{min-height: 100vh;}
+.mainView{flex: 1 1 auto}

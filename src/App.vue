@@ -5,7 +5,9 @@ import SiteFooter from "@/components/SiteFooter.vue";
 
 <template>
   <SiteHeader/>
-  <router-view/>
+  <div class="mainView">
+    <router-view/>
+  </div>
   <SiteFooter/>
 </template>
 
