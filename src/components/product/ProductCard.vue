@@ -15,10 +15,14 @@ const props = defineProps({
 
 <template>
 <div class="card" :data-id="id">
-  <SiteImage :src="image" :alt="title"/>
+  <router-link :to="'/product/'+props.id">
+    <SiteImage :src="image" :alt="title"/>
+  </router-link>
   <div class="content">
     <h4>
-      {{ title }}
+      <router-link :to="'/product/'+props.id">
+        {{ title }}
+      </router-link>
     </h4>
     <div v-if="category">
       <span>Категория: </span>
