@@ -13,5 +13,5 @@ import SiteNav from "@/components/SiteNav.vue";
 </template>
 
 <style scoped>
-footer {padding: 30px 0;margin-top: 60px;background: #1a1a1a;}
+footer {padding: 30px 0;background: #1a1a1a;}
 </style>

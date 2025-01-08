@@ -43,4 +43,4 @@ button.active{border-color: #646cff;background-color: #646cff}
 
 div#app, .mainView {display: flex;flex-direction: column;}
 div#app{min-height: 100vh;}
-.mainView{flex: 1 1 auto}
+.mainView{flex: 1 1 auto;padding: 60px 0;position: relative}
