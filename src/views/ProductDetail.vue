@@ -1,32 +1,13 @@
 <script setup>
-import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import SiteImage from "@/components/ui/SiteImage.vue";
 import SiteSpinner from "@/components/ui/SiteSpinner.vue";
+import {useProduct} from "@/hooks/useProduct.js";
 
 const route = useRoute();
 const productId = route.params.id;
-const product = ref(null);
-const isLoading = ref(true);
-const isError = ref(false);
-
-const fetchProductDetail = async (id) => {
-  try {
-    const response = await fetch(`https://fakestoreapi.com/products/${id}`);
-    if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
-    const data = await response.json();
-    product.value = data;
-  } catch (error) {
-    console.error(error);
-    isError.value = true;
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-onMounted(() => {
-  fetchProductDetail(productId);
-});
+const { product, isLoading, isError, fetchProductById } = useProduct();
+fetchProductById(productId);
 </script>
 
 <template>
@@ -37,15 +18,15 @@ onMounted(() => {
     <template v-else-if="isError">
       <h2>Произошла ошибка при загрузке товара</h2>
     </template>
-    <template v-else>
+    <template v-else-if="product">
       <div class="product">
         <div class="productImage">
           <SiteImage :src="product.image" :alt="product.title"/>
         </div>
         <article>
           <h1>{{ product.title }}</h1>
-          <div class="row">
-            <div class="rating" v-if="product.rating.rate" title="рейтинг">
+          <div class="row" v-if="product.rating">
+            <div class="rating" title="рейтинг">
               <span>{{ product.rating.rate }}</span>
               <i>
                 <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

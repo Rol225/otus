@@ -5,7 +5,7 @@ import ProductList from "@/components/product/ProductList.vue";
 
 <template>
   <div class="container">
-    <h1>Каталог продукции</h1>
+    <h1>Главная</h1>
   </div>
   <ProductList/>
 </template>
