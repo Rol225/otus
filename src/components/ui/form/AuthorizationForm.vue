@@ -4,7 +4,11 @@ import { required } from "@vee-validate/rules";
 import {useRouter} from "vue-router";
 
 import SiteInput from "@/components/ui/input/SiteInput.vue";
+import {useStore} from "vuex";
+import {computed, ref} from "vue";
+import SiteSpinner from "@/components/ui/SiteSpinner.vue";
 
+const store = useStore();
 const router = useRouter();
 
 const initialValues = {
@@ -15,6 +19,11 @@ const initialValues = {
 const { handleSubmit, validate } = useForm({ initialValues });
 const { value: login, errorMessage: loginError } = useField("login", required);
 const { value: password, errorMessage: passwordError } = useField("password", required);
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
+
+const isLoading = ref(false);
+const isError = ref(false);
+
 const checkErrors = async () => {
   const { errors, valid } = await validate();
   if (!valid) {
@@ -24,27 +33,38 @@ const checkErrors = async () => {
 };
 
 const onSubmit = async (values) => {
-  localStorage.setItem('auth', 'true');
-  await router.push('/');
+  isLoading.value = true;
+  await store.dispatch("login",{
+    username: values.login,
+    password: values.password
+  });
+  isLoading.value = false;
+  if(isAuthenticated.value)
+    await router.push('/');
 };
 </script>
 
 <template>
-  <form
-      @submit.prevent="async () => {
+  <template v-if="isLoading">
+    <SiteSpinner/>
+  </template>
+  <template v-else>
+    <form
+        @submit.prevent="async () => {
       await checkErrors();
       handleSubmit(onSubmit)();
     }"
-  >
-    <strong>Авторизация<br></strong>
-    <SiteInput name="login" placeholder="Логин"
-               v-model:value="login"
-               :message="{ message: loginError, class: 'error' }"/>
-    <SiteInput name="password" placeholder="Пароль" inputType="password"
-               v-model:value="password"
-               :message="{ message: passwordError, class: 'error' }"/>
-    <button type="submit">Войти</button>
-  </form>
+    >
+      <strong>Авторизация<br></strong>
+      <SiteInput name="login" placeholder="Логин"
+                 v-model:value="login"
+                 :message="{ message: loginError, class: 'error' }"/>
+      <SiteInput name="password" placeholder="Пароль" inputType="password"
+                 v-model:value="password"
+                 :message="{ message: passwordError, class: 'error' }"/>
+      <button type="submit">Войти</button>
+    </form>
+  </template>
 </template>
 
 <style scoped>

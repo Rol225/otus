@@ -4,13 +4,13 @@ import ProductCard from "@/components/product/ProductCard.vue";
 import SearchForm from "@/components/ui/form/SearchForm.vue";
 import {useProduct} from "@/hooks/useProduct.js";
 
-const {searchProducts, filteredProducts, isLoading, isError, isEmpty} = useProduct();
+const {searchProducts, clearFilteredProducts, filteredProducts, isLoading, isError, isEmpty} = useProduct();
 
 const onSearch = async (val) => {
   await searchProducts({title: val.title, price: val.price});
 };
 
-const customClear = () => filteredProducts.value = [];
+const customClear = () => clearFilteredProducts();
 </script>
 
 <template>

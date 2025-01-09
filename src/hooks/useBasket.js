@@ -1,40 +1,28 @@
-import {reactive, computed, ref} from 'vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
-const basketState = reactive({
-    products: [],
-    count: 0
-});
+export function useBasket() {
+    const store = useStore();
 
-export function useBasket(){
-    const products = computed(() => basketState.products);
-    const count = computed(() => basketState.count);
-    const totalPrice = computed(() => basketState.products.reduce((acc, product) => acc + (product.price * product.count), 0));
+    const products = computed(() => store.state.cart);
+    const count = computed(() => store.getters.cartItemCount);
+    const totalPrice = computed(() => store.getters.totalCartPrice);
 
     const addToBasket = (product) => {
-        const productTmp = basketState.products.find(el => el.id === product.id);
-        if(productTmp) {
-            productTmp.count++;
-        } else {
-            product["count"] = 1;
-            basketState.products.push(product);
-        }
-        basketState.count++;
-    }
+        store.dispatch('addToCart', product);
+    };
 
     const removeFromBasket = (productId) => {
-        basketState.products = basketState.products.filter(product => product.id !== productId);
-        basketState.count--;
-    }
+        store.dispatch('removeFromCart', productId);
+    };
 
     const getItem = (productId) => {
-        return basketState.products.find(el => el.id === productId);
-    }
+        return products.value.find(el => el.id === productId);
+    };
 
     const clearBasket = () => {
-        basketState.products.forEach(el => el.count = 0);
-        basketState.products = [];
-        basketState.count = 0;
-    }
+        store.dispatch('clearCart');
+    };
 
     return {products, count, totalPrice, addToBasket, removeFromBasket, getItem, clearBasket};
 }

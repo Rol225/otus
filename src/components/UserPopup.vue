@@ -1,17 +1,19 @@
 <script setup>
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import BasketPopup from "@/components/BasketPopup.vue";
+import {useStore} from "vuex";
 
+const store = useStore();
 const isOpen = ref(false);
 
-const isAuthenticated = localStorage.getItem('auth') === 'true';
-
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
+const user = computed(() => store.state.user);
 const toggle = () => {
   isOpen.value = !isOpen.value;
 }
 
 const logout = () => {
-  localStorage.removeItem('auth');
+  store.dispatch("logout");
   location.reload();
 }
 </script>
@@ -24,12 +26,13 @@ const logout = () => {
         <path d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="#FFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </i>
-    <div class="content" v-if="isAuthenticated">
-      <div class="login">admin</div>
+    <div class="content" v-if="isAuthenticated.value">
+      <div class="login">{{ user.username }}</div>
+      <div class="email">{{ user.email }}</div>
     </div>
   </div>
   <div class="tools" v-if="isOpen">
-    <template v-if="isAuthenticated">
+    <template v-if="isAuthenticated.value">
       <BasketPopup/>
       <a @click.prevent="logout">Выйти</a>
     </template>
