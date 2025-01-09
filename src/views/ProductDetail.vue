@@ -3,11 +3,15 @@ import { useRoute } from 'vue-router';
 import SiteImage from "@/components/ui/SiteImage.vue";
 import SiteSpinner from "@/components/ui/SiteSpinner.vue";
 import {useProduct} from "@/hooks/useProduct.js";
+import {ref} from "vue";
 
 const route = useRoute();
 const productId = route.params.id;
-const { product, isLoading, isError, fetchProductById } = useProduct();
-fetchProductById(productId);
+const { isLoading, isError, fetchProductById } = useProduct();
+const product = ref(null);
+fetchProductById(productId).then(r => {
+  product.value = r;
+});
 </script>
 
 <template>

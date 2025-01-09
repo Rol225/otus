@@ -1,22 +1,20 @@
-import { ref } from 'vue';
+import {computed, ref} from 'vue';
+import { useStore } from 'vuex';
 
 export function useProduct() {
-    const products = ref([]);
-    const product = ref(null);
-    const filteredProducts = ref([]);
+    const store = useStore();
+
+    const products = computed(() => store.state.products);
+    const filteredProducts = computed(() => store.state.filteredProducts);
     const isLoading = ref(false);
     const isError = ref(false);
     const isEmpty = ref(false);
 
     const fetchProducts = async () => {
-        isError.value = false;
         isLoading.value = true;
         try {
-            const response = await fetch("https://fakestoreapi.com/products");
-            if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
-            products.value = await response.json();
+            await store.dispatch('fetchProducts');
         } catch (error) {
-            console.error(error);
             isError.value = true;
         } finally {
             isLoading.value = false;
@@ -26,37 +24,23 @@ export function useProduct() {
     const searchProducts = async ({title, price} = {}) => {
         isError.value = false;
         if (!title && !price) {
-            filteredProducts.value = [];
+            store.commit('SET_FILTERED_PRODUCTS', []);
             isEmpty.value = true;
             return;
         }
-        await fetchProducts();
-        filteredProducts.value =
-            products.value.filter((el) => {
-                const matchesTitle = title
-                    ? el.title.toLowerCase().includes(title.toLowerCase())
-                    : true;
-                return matchesTitle;
-            }) || [];
-        isEmpty.value = filteredProducts.value.length === 0;
+        await store.dispatch('searchProducts', {title, price});
+        isEmpty.value = (store.getters.filteredProducts).length === 0;
+    };
+
+    const clearFilteredProducts = async () => {
+        store.commit('SET_FILTERED_PRODUCTS', []);
     };
 
     const fetchProductById = async (productId) => {
         if (!productId) return;
-        isLoading.value = true;
-        isError.value = null;
-        try {
-            const response = await fetch(`https://fakestoreapi.com/products/${productId}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            product.value = await response.json();
-        } catch (err) {
-            isError.value = err.message;
-        } finally {
-            isLoading.value = false;
-        }
+        if(products.value.length <= 0) await fetchProducts();
+        return products.value.find(el => el.id == productId)
     };
 
-    return {products, product, filteredProducts, isLoading, isError, isEmpty, fetchProducts, searchProducts, fetchProductById};
+    return { products, filteredProducts, isLoading, isError, isEmpty, fetchProducts, searchProducts, clearFilteredProducts, fetchProductById };
 }

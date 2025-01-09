@@ -8,6 +8,8 @@ import CatalogView from "@/views/CatalogView.vue";
 import ProductDetail from "@/views/ProductDetail.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
 import AuthorizationView from "@/views/AuthorizationView.vue";
+import {computed} from "vue";
+import store from "@/store/index.js";
 
 const routes = [
     { path: '/', component: MainView, meta: {group: ["main"], title: 'Главная'}},
@@ -36,8 +38,8 @@ const generateMenuItems = (group = "main") => {
 }
 
 router.beforeEach((to, from, next) => {
-    const isAuthenticated = localStorage.getItem('auth') === 'true';
-    if (to.meta.requiresAuth && !isAuthenticated) next('/authorization');
+    const isAuthenticated = computed(() => store.getters.isAuthenticated);
+    if (to.meta.requiresAuth && !isAuthenticated.value) next('/authorization');
     else next();
 });
 

@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { useForm, useField, defineRule } from "vee-validate";
 import { required, email } from "@vee-validate/rules";
+import {useStore} from "vuex";
 
 import SiteInput from "@/components/ui/input/SiteInput.vue";
 import SelectAddress from "@/components/ui/input/SelectAddress.vue";
@@ -15,11 +16,15 @@ defineRule("cardOwnerRule", (value) => /^[A-Za-z]+\s[A-Za-z]+$/.test(value) || "
 defineRule("cvcRule", (value) => /^\d{3}$/.test(value) || "CVC должен состоять из 3 цифр");
 defineRule("cardDateRule", (value) => /^(0[1-9]|1[0-2])\/\d{2}$/.test(value) || "Дата должна быть в формате MM/YY");
 
+const store = useStore();
+
+const user = store.getters.user;
+
 const initialValues = {
-  fio: "",
-  phone: "",
-  email: "",
-  address: "",
+  fio: user.name.firstname + " " + user.name.lastname,
+  phone: user.phone,
+  email: user.email,
+  address: `${user.address.city}, ${user.address.street}, ${user.address.number}`,
   payNumber: "",
   payOwner: "",
   payCvc: "",
