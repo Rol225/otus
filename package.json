@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:unit": "vitest",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:clearcache": "cypress cache clear"
   },
   "dependencies": {
     "@vee-validate/rules": "^4.15.0",
@@ -19,6 +23,10 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
-    "vite": "^6.0.5"
+    "@vue/test-utils": "^2.4.6",
+    "cypress": "^13.17.0",
+    "jsdom": "^26.0.0",
+    "vite": "^6.0.5",
+    "vitest": "^2.1.8"
   }
 }

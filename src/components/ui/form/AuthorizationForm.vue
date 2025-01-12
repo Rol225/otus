@@ -35,8 +35,8 @@ const checkErrors = async () => {
 const onSubmit = async (values) => {
   isLoading.value = true;
   await store.dispatch("login",{
-    username: values.login,
-    password: values.password
+    username: login.value,
+    password: password.value
   });
   isLoading.value = false;
   if(isAuthenticated.value)

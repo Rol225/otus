@@ -4,6 +4,7 @@ import IMask from "imask";
 
 const props = defineProps({
   value: {type: String, default: "",},
+  name: {type: String, default: "",},
   inputType: {type: String, default: "text",},
   placeholder: {type: String, default: "",},
   isShowButton: {type: Boolean, default: false,},
@@ -49,6 +50,7 @@ const customSubmit = () => {emit("customSubmit", maskInstance?.value || "");};
       <input
           :type="inputType"
           :placeholder="placeholder"
+          :name="name"
           ref="inputElement"
       />
       <button type="button" @click="customSubmit" v-if="isShowButton">
